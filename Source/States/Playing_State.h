@@ -15,6 +15,14 @@ namespace State
 {
     class Playing : public State_Base
     {
+        enum class Stage
+        {
+            Pre,
+            Playing,
+            Death_In_Process,
+            Dead
+        };
+
         constexpr static int NUM_PIPES = 3;
 
         public:
@@ -29,17 +37,22 @@ namespace State
             void draw   ();
 
         private:
+            void reset();
+
             Player m_player;
             sf::RectangleShape m_background;
             sf::RectangleShape m_ground;
 
+            Toggle_Key m_spacebarToggle;
+
             std::vector<Pipe_Pair> m_trapPairs;
 
-            int m_currentScore = 0;
+            int m_currentScore;
 
             sf::Text m_scoreText;
-
             sf::Sound m_hitSound;
+
+            Stage m_stage;
     };
 }
 

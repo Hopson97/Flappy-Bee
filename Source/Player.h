@@ -6,36 +6,9 @@
 #include <iostream>
 
 #include "Animation.h"
+#include "Util/Toggle_Key.h"
 
 class Resource_Holder;
-
-class ToggleInput
-{
-    public:
-        bool isDown()
-        {
-            if (locked)
-            {
-                if (!sf::Keyboard::isKeyPressed(key))
-                {
-                    locked = false;
-                }
-                return false;
-            }
-            else if (!locked)
-            {
-                if (sf::Keyboard::isKeyPressed(key))
-                {
-                    locked = true;
-                    return true;
-                }
-            }
-            return false;
-        }
-
-        sf::Keyboard::Key key;
-        bool locked = false;
-};
 
 class Player
 {
@@ -46,6 +19,10 @@ class Player
         void update (float dt);
         void draw   ();
 
+        void animate();
+        void kill();
+        bool isAtDeathHeight() const;
+
         const sf::RectangleShape& getSprite() const { return m_sprite; }
 
     private:
@@ -54,12 +31,15 @@ class Player
         sf::Vector2f m_velocity;
         sf::RectangleShape m_sprite;
 
-        ToggleInput keyTest;
-        int m_rotation = 0;
+        Toggle_Key m_spacebarToggle;
+        int m_rotation = -25;
 
         Animation m_anim;
 
         sf::Sound m_wingSound;
+
+        bool m_isDead               = false;
+        bool m_reachedDeathHeight   = false;
 };
 
 #endif // PLAYER_H

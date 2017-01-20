@@ -101,8 +101,8 @@ bool Pipe_Pair::colliding(Player& player) const
 
 int Pipe_Pair::getRandomYPos()
 {
-    static int minY = 50;
-    static int maxY = 400;
+    static int minY = 40;
+    static int maxY = 390;
 
     return Random::integer(minY, maxY);
 }
