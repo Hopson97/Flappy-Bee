@@ -3,6 +3,7 @@
 #include "Display.h"
 #include "Player.h"
 #include "Util/Random.h"
+#include "States/Playing_State.h"
 
 Pipe_Pair::Pipe::Pipe(const Resource_Holder& resources, bool rotate)
 :   m_isFlipped (rotate)
@@ -42,7 +43,7 @@ void Pipe_Pair::Pipe::setX(int x)
 
 sf::FloatRect Pipe_Pair::Pipe::getBounds() const
 {
-    return m_sprite.getLocalBounds();
+    return m_sprite.getGlobalBounds();
 }
 
 //  ===  ===  ===  ===  ===  ===  ===  ===  ===
@@ -54,9 +55,11 @@ Pipe_Pair::Pipe_Pair(const Resource_Holder& resources, int initX)
 ,   m_currentXPosition  (initX)
 {
     setRandomY();
+
+    m_scoreSound.setBuffer(resources.sounds.get(Sound_ID::Score));
 }
 
-void Pipe_Pair::update(float dt)
+void Pipe_Pair::update(float dt, int& score)
 {
     m_currentXPosition -= MOVE_SPEED * dt;
 
@@ -64,6 +67,15 @@ void Pipe_Pair::update(float dt)
     {
         m_currentXPosition = Display::WIDTH;
         setRandomY();
+        m_scoreGot = false;
+    }
+
+    if (m_currentXPosition <= State::Playing::PLAYER_X &&
+        !m_scoreGot)
+    {
+        m_scoreGot = true;
+        score++;
+        m_scoreSound.play();
     }
 
     m_top   .setX (m_currentXPosition);
@@ -83,8 +95,8 @@ bool Pipe_Pair::colliding(Player& player) const
 {
     auto& sprite = player.getSprite();
 
-    return sprite.getLocalBounds().intersects(m_bottom. getBounds()) ||
-           sprite.getLocalBounds().intersects(m_top.    getBounds());
+    return sprite.getGlobalBounds().intersects(m_bottom. getBounds()) ||
+           sprite.getGlobalBounds().intersects(m_top.    getBounds());
 }
 
 int Pipe_Pair::getRandomYPos()

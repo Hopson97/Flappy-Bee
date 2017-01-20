@@ -2,6 +2,7 @@
 #define PLAYER_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
 #include <iostream>
 
 #include "Animation.h"
@@ -57,6 +58,8 @@ class Player
         int m_rotation = 0;
 
         Animation m_anim;
+
+        sf::Sound m_wingSound;
 };
 
 #endif // PLAYER_H

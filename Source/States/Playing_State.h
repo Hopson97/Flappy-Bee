@@ -2,12 +2,14 @@
 #define PLAYING_STATE_H_INCLUDED
 
 #include <vector>
+#include <SFML/Audio.hpp>
 
 #include "State_Base.h"
 
 #include "../Animation.h"
 #include "../Player.h"
 #include "Pipe.h"
+#include "Display.h"
 
 namespace State
 {
@@ -16,7 +18,8 @@ namespace State
         constexpr static int NUM_PIPES = 3;
 
         public:
-            constexpr static int PLAYER_X = 200;
+            constexpr static int PLAYER_X       = 200;
+            constexpr static int DEATH_HEIGHT   = Display::HEIGHT - 100;
 
             Playing (Application& application);
 
@@ -28,8 +31,15 @@ namespace State
         private:
             Player m_player;
             sf::RectangleShape m_background;
+            sf::RectangleShape m_ground;
 
             std::vector<Pipe_Pair> m_trapPairs;
+
+            int m_currentScore = 0;
+
+            sf::Text m_scoreText;
+
+            sf::Sound m_hitSound;
     };
 }
 

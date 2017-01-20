@@ -16,6 +16,8 @@ enum class Texture_ID
     Pipe_Bottom,
     Pipe_Top,
 
+    Ground,
+
     Background_Nature,
 
 };
@@ -27,7 +29,11 @@ enum class Font_ID
 
 enum class Sound_ID
 {
-    Splash_Made_By
+    Splash_Made_By,
+
+    Hit,
+    Wing,
+    Score
 };
 
 

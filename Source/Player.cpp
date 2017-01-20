@@ -12,7 +12,9 @@ Player::Player(const Resource_Holder& resources)
     m_sprite.setOrigin({70 / 2, 70 / 2});
     m_sprite.setTexture(&resources.textures.get(Texture_ID::Bee));
     m_sprite.move({State::Playing::PLAYER_X,
-                   Display::HEIGHT / 2});
+                   Display::HEIGHT / 1.5});
+
+    m_wingSound.setBuffer(resources.sounds.get(Sound_ID::Wing));
 
     constexpr int NUM_FRAMES      = 3;
     constexpr int FRAME_WIDTH     = 17;
@@ -30,6 +32,7 @@ void Player::input()
     {
         m_velocity.y = -750;
         rotate(-20);
+        m_wingSound.play();
     }
     m_velocity.y += 50;
     rotate(1);

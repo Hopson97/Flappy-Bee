@@ -33,7 +33,7 @@ class Pipe_Pair
         Pipe_Pair(const Resource_Holder& resources,
                       int initX);
 
-        void update     (float dt);
+        void update     (float dt, int& score);
         void draw       ();
 
         bool colliding  (Player& player) const;
@@ -46,6 +46,10 @@ class Pipe_Pair
         Pipe m_bottom;
 
         int m_currentXPosition;
+
+        bool m_scoreGot = false;
+
+        sf::Sound m_scoreSound;
 };
 
 #endif // Pipe_H_INCLUDED
