@@ -1,6 +1,3 @@
-# Basic-SFML-Game-Engine
-A very simple SFML game engine/ framework.
+#Flappy Bee
 
-Featues:
-
-Game states, splash screen, resource handler.
+Just another flappy bird clone, made for fun.
