@@ -6,7 +6,6 @@
 
 namespace Random
 {
-
     void init()
     {
         srand(time(nullptr));

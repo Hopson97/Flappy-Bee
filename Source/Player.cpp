@@ -6,6 +6,7 @@
 Player::Player(const Resource_Holder& resources)
 {
     keyTest.key = sf::Keyboard::Space;
+
     m_sprite.setSize({70, 70});
     m_sprite.setTexture(&resources.textures.get(Texture_ID::Bee));
     m_sprite.move({300, 150});
@@ -15,9 +16,9 @@ void Player::input()
 {
     if (keyTest.isDown())
     {
-        m_velocity.y = -500;
+        m_velocity.y = -800;
     }
-    m_velocity.y += 15;
+    m_velocity.y += 30;
 
 
 }

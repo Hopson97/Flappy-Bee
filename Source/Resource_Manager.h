@@ -12,7 +12,11 @@ enum class Texture_ID
     Splash_SFML,
     Splash_MH,
 
-    Bee
+    Bee,
+    Fly_Trap,
+
+    Background_Nature,
+
 };
 
 enum class Font_ID
