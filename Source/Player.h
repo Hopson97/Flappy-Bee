@@ -4,34 +4,36 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "Animation.h"
+
 class Resource_Holder;
 
-struct ToggleInput
+class ToggleInput
 {
-    sf::Keyboard::Key key;
-
-    bool isDown()
-    {
-        if (locked)
+    public:
+        bool isDown()
         {
-            if (!sf::Keyboard::isKeyPressed(key))
+            if (locked)
             {
-                locked = false;
+                if (!sf::Keyboard::isKeyPressed(key))
+                {
+                    locked = false;
+                }
+                return false;
+            }
+            else if (!locked)
+            {
+                if (sf::Keyboard::isKeyPressed(key))
+                {
+                    locked = true;
+                    return true;
+                }
             }
             return false;
         }
-        else if (!locked)
-        {
-            if (sf::Keyboard::isKeyPressed(key))
-            {
-                locked = true;
-                return true;
-            }
-        }
-        return false;
-    }
 
-    bool locked = false;
+        sf::Keyboard::Key key;
+        bool locked = false;
 };
 
 class Player
@@ -43,11 +45,18 @@ class Player
         void update (float dt);
         void draw   ();
 
+        const sf::RectangleShape& getSprite() const { return m_sprite; }
+
     private:
+        void rotate(int degrees);
+
         sf::Vector2f m_velocity;
         sf::RectangleShape m_sprite;
 
         ToggleInput keyTest;
+        int m_rotation = 0;
+
+        Animation m_anim;
 };
 
 #endif // PLAYER_H

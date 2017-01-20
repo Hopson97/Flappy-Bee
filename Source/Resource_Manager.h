@@ -13,7 +13,8 @@ enum class Texture_ID
     Splash_MH,
 
     Bee,
-    Fly_Trap,
+    Pipe_Bottom,
+    Pipe_Top,
 
     Background_Nature,
 

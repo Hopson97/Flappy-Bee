@@ -7,15 +7,17 @@
 
 #include "../Animation.h"
 #include "../Player.h"
-#include "Fly_Trap.h"
+#include "Pipe.h"
 
 namespace State
 {
     class Playing : public State_Base
     {
-        constexpr static int NUM_PIPES = 1;
+        constexpr static int NUM_PIPES = 3;
 
         public:
+            constexpr static int PLAYER_X = 200;
+
             Playing (Application& application);
 
             void input  (const sf::Event& e);
@@ -27,7 +29,7 @@ namespace State
             Player m_player;
             sf::RectangleShape m_background;
 
-            std::vector<Fly_Trap_Pair> m_trapPairs;
+            std::vector<Pipe_Pair> m_trapPairs;
     };
 }
 

@@ -15,7 +15,8 @@ namespace State
 
         for (int i = 0 ; i < NUM_PIPES ; i++)
         {
-            m_trapPairs.emplace_back(application.getResources(), Display::WIDTH);
+            m_trapPairs.emplace_back(application.getResources(),
+                                     Display::WIDTH + i * 500);
         }
     }
 

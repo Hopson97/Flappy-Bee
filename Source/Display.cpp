@@ -41,7 +41,7 @@ namespace Display
 
     void toggleVSync()
     {
-        window->setVerticalSyncEnabled(true);
+        window->setFramerateLimit(60);
     }
 
 
