@@ -35,18 +35,16 @@ namespace State
     {
         switch (m_stage)
         {
-            case Stage::Pre:{
+            case Stage::Pre:
                 if (m_spacebarToggle.isDown())
                 {
                     m_stage = Stage::Playing;
                 }
                 break;
-            }
 
-            case Stage::Playing:{
+            case Stage::Playing:
                 m_player.input();
                 break;
-            }
 
             case Stage::Dead:
                 if (m_spacebarToggle.isDown())
@@ -66,12 +64,11 @@ namespace State
 
         switch (m_stage)
         {
-            case Stage::Pre:{
+            case Stage::Pre:
                 m_player.animate();
                 break;
-            }
 
-            case Stage::Playing:{
+            case Stage::Playing:
                 m_player.update(dt);
 
                 //Update pipes
@@ -84,7 +81,7 @@ namespace State
                 for (Pipe_Pair& pair : m_trapPairs)
                 {
                     if (pair.colliding(m_player) ||
-                        m_player.getSprite().getGlobalBounds().intersects(m_ground.getGlobalBounds()))
+                        m_player.getBounds().intersects(m_ground.getGlobalBounds()))
                     {
                         m_hitSound.play();
                         m_player.kill();
@@ -92,21 +89,18 @@ namespace State
                     }
                 }
                 break;
-            }
 
-            case Stage::Death_In_Process:{
+            case Stage::Death_In_Process:
                 m_player.update(dt);
                 if (m_player.isAtDeathHeight())
                 {
                     m_stage = Stage::Dead;
                 }
                 break;
-            }
 
-            case Stage::Dead:{
-                std::cout << "dead" << std::endl;
+
+            default:
                 break;
-            }
         }
     }
 
@@ -134,9 +128,9 @@ namespace State
             m_trapPairs.emplace_back(m_p_application->getResources(),
                                      Display::WIDTH + i * 500);
         }
+        m_player.reset();
 
         m_currentScore = 0;
-        m_player = Player (m_p_application->getResources());
         m_stage = Stage::Pre;
     }
 

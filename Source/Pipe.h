@@ -7,8 +7,8 @@ class Player;
 
 class Pipe_Pair
 {
-    constexpr static int GAP_BETWEEN_TRAPS = 230;
-    constexpr static int MOVE_SPEED        = 400;
+    constexpr static int GAP_BETWEEN_TRAPS = 235;
+    constexpr static int MOVE_SPEED        = 500;
 
     class Pipe
     {
@@ -28,7 +28,7 @@ class Pipe_Pair
     };
 
     public:
-        constexpr static int TRAP_WIDTH = 100;
+        constexpr static int TRAP_WIDTH = 90;
 
         Pipe_Pair(const Resource_Holder& resources,
                       int initX);

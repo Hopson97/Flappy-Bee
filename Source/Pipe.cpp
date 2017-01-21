@@ -93,10 +93,10 @@ void Pipe_Pair::draw()
 
 bool Pipe_Pair::colliding(Player& player) const
 {
-    auto& sprite = player.getSprite();
+    auto& playerBounds = player.getBounds();
 
-    return sprite.getGlobalBounds().intersects(m_bottom. getBounds()) ||
-           sprite.getGlobalBounds().intersects(m_top.    getBounds());
+    return playerBounds.intersects(m_bottom. getBounds()) ||
+           playerBounds.intersects(m_top.    getBounds());
 }
 
 int Pipe_Pair::getRandomYPos()

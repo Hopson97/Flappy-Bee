@@ -31,7 +31,7 @@ namespace
 
 Application::Application()
 {
-    Display::init();
+    Display::init("Flappy Bee");
     Random::init();
 
     pushState(std::make_unique<State::Splash_Screen>(*this));

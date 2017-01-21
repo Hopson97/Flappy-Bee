@@ -12,8 +12,9 @@ Player::Player(const Resource_Holder& resources)
     m_sprite.setSize({50, 50});
     m_sprite.setOrigin({70 / 2, 70 / 2});
     m_sprite.setTexture(&resources.textures.get(Texture_ID::Bee));
-    m_sprite.move({State::Playing::PLAYER_X,
-                   Display::HEIGHT / 2.5});
+
+    m_bounds.height = m_sprite.getSize().y - 10;
+    m_bounds.width  = m_sprite.getSize().x - 10;
 
     m_wingSound.setBuffer(resources.sounds.get(Sound_ID::Wing));
 
@@ -72,6 +73,9 @@ void Player::animate()
 
 void Player::update(float dt)
 {
+    m_bounds.left = m_sprite.getPosition().x - m_sprite.getSize().x / 2;
+    m_bounds.top  = m_sprite.getPosition().y - m_sprite.getSize().y / 2;
+
     m_velocity.y += 45;
     rotate(1);
 
@@ -84,7 +88,6 @@ void Player::update(float dt)
     else
     {
         m_reachedDeathHeight = true;
-        std::cout << "death height is now true" << std::endl;
     }
 
     if (!m_isDead)
@@ -106,13 +109,19 @@ void Player::kill()
 
 bool Player::isAtDeathHeight() const
 {
-    if (m_reachedDeathHeight)
-    {
-        std::cout << "death height " << m_reachedDeathHeight << std::endl;
-    }
-
-
     return m_reachedDeathHeight;
+}
+
+void Player::reset()
+{
+    m_isDead               = false;
+    m_reachedDeathHeight   = false;
+    m_rotation = -25;
+
+    m_sprite.setPosition({State::Playing::PLAYER_X,
+                          Display::HEIGHT / 2.5});
+    m_sprite.setRotation(0);
+    m_velocity.y = 0;
 }
 
 

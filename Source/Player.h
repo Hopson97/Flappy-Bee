@@ -23,7 +23,10 @@ class Player
         void kill();
         bool isAtDeathHeight() const;
 
-        const sf::RectangleShape& getSprite() const { return m_sprite; }
+        void reset();
+
+        //const sf::RectangleShape& getSprite () const { return m_sprite; }
+        const sf::FloatRect& getBounds      () const { return m_bounds; }
 
     private:
         void rotate(int degrees);
@@ -40,6 +43,8 @@ class Player
 
         bool m_isDead               = false;
         bool m_reachedDeathHeight   = false;
+
+        sf::FloatRect m_bounds;
 };
 
 #endif // PLAYER_H
