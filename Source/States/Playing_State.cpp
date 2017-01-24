@@ -3,6 +3,7 @@
 #include "../Resource_Manager.h"
 #include "../Application.h"
 #include "../Display.h"
+#include "World_Constants.h"
 
 namespace State
 {
@@ -15,7 +16,7 @@ namespace State
         m_background.setSize        ({Display::WIDTH, Display::HEIGHT});
 
         m_ground.setSize        ({Display::WIDTH, 100});
-        m_ground.setPosition    (0, DEATH_HEIGHT);
+        m_ground.setPosition    (0, World_Constants::GROUND_HEIGHT);
         m_ground.setTexture     (&getTexture(Texture_ID::Ground));
 
         m_hitSound.setBuffer(getSound(Sound_ID::Hit));
@@ -24,6 +25,16 @@ namespace State
         m_scoreText.setFont(getFont(Font_ID::RS));
         m_scoreText.setOutlineColor(sf::Color::Black);
         m_scoreText.setOutlineThickness(2);
+
+        m_pressSpacebar.setPosition({Display::WIDTH / 2, Display::HEIGHT / 2});
+        m_pressSpacebar.setFont(getFont(Font_ID::RS));
+        m_pressSpacebar.setOutlineColor(sf::Color::Black);
+        m_pressSpacebar.setOutlineThickness(2);
+        m_pressSpacebar.setString("Press Spacebar to Continue!");
+
+        sf::FloatRect textRect = m_pressSpacebar.getLocalBounds();
+        m_pressSpacebar.setOrigin(textRect.left + textRect.width /  2.0f,
+                                  textRect.top  + textRect.height / 2.0f);
 
         reset();
     }
@@ -49,6 +60,7 @@ namespace State
             case Stage::Dead:
                 if (m_spacebarToggle.isDown())
                 {
+                    m_stage = Stage::Pre;
                     reset();
                 }
                 break;
@@ -108,10 +120,36 @@ namespace State
     {
         Display::draw(m_background);
 
-
-        for (auto& trap : m_trapPairs)
+        switch (m_stage)
         {
-            trap.draw();
+            case Stage::Pre:
+                Display::draw(m_pressSpacebar);
+                break;
+
+            case Stage::Playing:
+                for (auto& trap : m_trapPairs)
+                {
+                    trap.draw();
+                }
+                break;
+
+            case Stage::Death_In_Process:
+                for (auto& trap : m_trapPairs)
+                {
+                    trap.draw();
+                }
+                break;
+
+            case Stage::Dead:
+                for (auto& trap : m_trapPairs)
+                {
+                    trap.draw();
+                }
+                Display::draw(m_pressSpacebar);
+                break;
+
+            default:
+                break;
         }
 
         Display::draw(m_ground);

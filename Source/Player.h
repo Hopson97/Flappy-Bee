@@ -13,6 +13,9 @@ class Resource_Holder;
 class Player
 {
     public:
+        constexpr static int SIZE           = 45;
+        constexpr static int JUMP_HEIGHT    = -950;
+
         Player(const Resource_Holder& resources);
 
         void input  ();

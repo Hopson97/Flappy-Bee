@@ -1,20 +1,17 @@
 #include "Player.h"
 
 #include "Resource_Manager.h"
-#include "Display.h"
-#include "States/Playing_State.h"
-
-#include <iostream>
+#include "World_Constants.h"
 
 Player::Player(const Resource_Holder& resources)
 :   m_spacebarToggle (sf::Keyboard::Space)
 {
-    m_sprite.setSize({50, 50});
-    m_sprite.setOrigin({70 / 2, 70 / 2});
-    m_sprite.setTexture(&resources.textures.get(Texture_ID::Bee));
+    m_sprite.setSize    ({SIZE,     SIZE});
+    m_sprite.setOrigin  ({SIZE / 2, SIZE / 2});
+    m_sprite.setTexture (&resources.textures.get(Texture_ID::Bee));
 
-    m_bounds.height = m_sprite.getSize().y - 10;
-    m_bounds.width  = m_sprite.getSize().x - 10;
+    m_bounds.height = m_sprite.getSize().y / 1.1;
+    m_bounds.width  = m_sprite.getSize().x / 1.1;
 
     m_wingSound.setBuffer(resources.sounds.get(Sound_ID::Wing));
 
@@ -24,7 +21,7 @@ Player::Player(const Resource_Holder& resources)
 
     for (int i = 0 ; i < NUM_FRAMES ; i++)
     {
-        m_anim.addFrame({i * FRAME_WIDTH, 0, FRAME_WIDTH, FRAME_HEIGHT}, 0.5f);
+        m_anim.addFrame({i * FRAME_WIDTH, 0, FRAME_WIDTH, FRAME_HEIGHT}, 0.2f);
     }
 }
 
@@ -34,7 +31,7 @@ void Player::input()
     {
         if (m_spacebarToggle.isDown())
         {
-            m_velocity.y = -850;
+            m_velocity.y = JUMP_HEIGHT;
             rotate(-50);
             m_wingSound.play();
         }
@@ -64,7 +61,7 @@ void Player::animate()
 {
     static sf::Clock timer;
     m_sprite.setTextureRect(m_anim.getFrame());
-    if (timer.getElapsedTime() > (m_wingSound.getBuffer()->getDuration()))
+    if (timer.getElapsedTime() > (m_wingSound.getBuffer()->getDuration() + sf::seconds(0.35) ))
     {
         timer.restart();
         m_wingSound.play();
@@ -76,14 +73,13 @@ void Player::update(float dt)
     m_bounds.left = m_sprite.getPosition().x - m_sprite.getSize().x / 2;
     m_bounds.top  = m_sprite.getPosition().y - m_sprite.getSize().y / 2;
 
-    m_velocity.y += 45;
+    m_velocity.y += World_Constants::GRAVITY;
     rotate(1);
 
-    if (m_sprite.getPosition().y < State::Playing::DEATH_HEIGHT)
+    if (m_sprite.getPosition().y < World_Constants::GROUND_HEIGHT)
     {
         m_sprite.move({0,
                        m_velocity.y * dt});
-        m_velocity *= 0.98f;
     }
     else
     {
@@ -118,7 +114,7 @@ void Player::reset()
     m_reachedDeathHeight   = false;
     m_rotation = -25;
 
-    m_sprite.setPosition({State::Playing::PLAYER_X,
+    m_sprite.setPosition({World_Constants::PLAYER_X,
                           Display::HEIGHT / 2.5});
     m_sprite.setRotation(0);
     m_velocity.y = 0;

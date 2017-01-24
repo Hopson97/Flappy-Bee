@@ -20,15 +20,13 @@ namespace State
             Pre,
             Playing,
             Death_In_Process,
-            Dead
+            Dead,
+            Reset_Init,
         };
 
         constexpr static int NUM_PIPES = 3;
 
         public:
-            constexpr static int PLAYER_X       = 200;
-            constexpr static int DEATH_HEIGHT   = Display::HEIGHT - 100;
-
             Playing (Application& application);
 
             void input  (const sf::Event& e);
@@ -51,6 +49,8 @@ namespace State
 
             sf::Text m_scoreText;
             sf::Sound m_hitSound;
+
+            sf::Text m_pressSpacebar;
 
             Stage m_stage;
     };

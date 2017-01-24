@@ -3,7 +3,7 @@
 #include "Display.h"
 #include "Player.h"
 #include "Util/Random.h"
-#include "States/Playing_State.h"
+#include "World_Constants.h"
 
 Pipe_Pair::Pipe::Pipe(const Resource_Holder& resources, bool rotate)
 :   m_isFlipped (rotate)
@@ -61,7 +61,7 @@ Pipe_Pair::Pipe_Pair(const Resource_Holder& resources, int initX)
 
 void Pipe_Pair::update(float dt, int& score)
 {
-    m_currentXPosition -= MOVE_SPEED * dt;
+    m_currentXPosition -= World_Constants::Pipe::SPEED * dt;
 
     if (m_currentXPosition <= -TRAP_WIDTH)
     {
@@ -70,7 +70,7 @@ void Pipe_Pair::update(float dt, int& score)
         m_scoreGot = false;
     }
 
-    if (m_currentXPosition <= State::Playing::PLAYER_X &&
+    if (m_currentXPosition <= World_Constants::PLAYER_X &&
         !m_scoreGot)
     {
         m_scoreGot = true;
@@ -101,17 +101,17 @@ bool Pipe_Pair::colliding(Player& player) const
 
 int Pipe_Pair::getRandomYPos()
 {
-    static int minY = 40;
-    static int maxY = 390;
+    static int minY = 80;
+    static int maxY = 370;
 
-    return Random::integer(minY, maxY);
+    return Random::intInRange(minY, maxY);
 }
 
 void Pipe_Pair::setRandomY()
 {
     auto y = getRandomYPos();
     m_top   .setY   (y);
-    m_bottom.setY   (y + GAP_BETWEEN_TRAPS);
+    m_bottom.setY   (y + World_Constants::Pipe::Y_GAP);
 }
 
 

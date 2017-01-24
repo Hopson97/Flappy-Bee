@@ -7,9 +7,6 @@ class Player;
 
 class Pipe_Pair
 {
-    constexpr static int GAP_BETWEEN_TRAPS = 235;
-    constexpr static int MOVE_SPEED        = 500;
-
     class Pipe
     {
         public:
